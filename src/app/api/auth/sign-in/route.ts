@@ -31,6 +31,10 @@ export async function POST(request: Request) {
       "Set-Cookie",
       cookie.serialize("refreshToken", refreshToken, cookieOptions)
     );
+    headers.append(
+      "Set-Cookie",
+      cookie.serialize("token", idToken, cookieOptions)
+    );
 
     user.metadata;
 
