@@ -1,3 +1,5 @@
+"use client";
+
 import StorageFlowLogo from "@/components/storage-flow-logo";
 import { Button } from "@/components/ui/button";
 import {

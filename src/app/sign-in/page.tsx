@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useLoadingScreen } from "@/features/loading-screen/hooks";
 import { useToast } from "@/hooks/use-toast";
+import { authSignIn } from "@/services/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,12 +32,15 @@ export default function SignInPage() {
     startLoading();
 
     try {
-      // await loginUser(email, password);
-      toast({
-        title: "Login Successful",
-        description: "You have been logged in successfully.",
-      });
-      router.push("/dashboard");
+      const resSignIn = await authSignIn({ email, password });
+
+      if (resSignIn.ok) {
+        toast({
+          title: "Login Successful",
+          description: "You have been logged in successfully.",
+        });
+        router.push("/dashboard");
+      }
     } catch (error) {
       toast({
         title: "Login Failed",
