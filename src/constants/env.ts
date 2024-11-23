@@ -1,6 +1,6 @@
 export const env = {
   isProduction: process.env.NODE_ENV === "production",
-  baseUrl: process.env.NEXT_DEPLOYMENT_BASE_URL!,
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL!,
   firebase: {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
