@@ -1,11 +1,23 @@
 import { TAny } from "@/types/global";
-import { getCookie } from "./auth/utils";
+import { env } from "@/constants/env";
 
-function createFetch(url: string, { ...init }: RequestInit) {
-  const newFetch = async (method = "GET") => {
+type MutableRequest = Omit<RequestInit, "body"> & { body?: TAny };
+
+export const createFetch = (path: string) => {
+  const newFetch = async (method: string, init: RequestInit) => {
+    const headersBody = {
+      "Content-Type": "application/json",
+    };
+
+    const url = env.baseUrl.concat("/api", path);
     const response = await fetch(url, {
       method,
       ...init,
+      headers: {
+        ...(init.body ? headersBody : {}),
+        ...init.headers,
+      },
+      body: init.body ? JSON.stringify(init.body) : undefined,
     });
 
     // Memeriksa status response secara lebih spesifik
@@ -16,24 +28,19 @@ function createFetch(url: string, { ...init }: RequestInit) {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
-    return response;
+    return {
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      data: await response.json(),
+    };
   };
 
   return {
-    get: () => newFetch(),
-    post: () => newFetch("POST"),
-    put: () => newFetch("PUT"),
-    patch: () => newFetch("PATCH"),
-    delete: () => newFetch("DELETE"),
+    get: (init: RequestInit) => newFetch("GET", init),
+    post: (init: MutableRequest) => newFetch("POST", init),
+    put: (init: MutableRequest) => newFetch("PUT", init),
+    patch: (init: MutableRequest) => newFetch("PATCH", init),
+    delete: (init: RequestInit) => newFetch("DELETE", init),
   };
-}
-
-// Fungsi tanpa otentikasi
-export const fetchWithoutAuth = (url: string) => createFetch(url, {});
-
-// Fungsi dengan otentikasi
-export const fetchWithAuth = (url: string, body: TAny) =>
-  createFetch(url, {
-    body: JSON.stringify(body),
-    headers: { Authorization: `Bearer ${getCookie("token")}` },
-  });
+};
