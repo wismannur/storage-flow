@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import cookie from "cookie";
 import { env } from "@/constants/env";
+import { getCookie, setAuthCookies } from "@/utils/cookies";
 
 export async function POST(request: Request) {
   try {
-    const cookies = cookie.parse(request.headers.get("cookie") || "");
-    const refreshToken = cookies.refreshToken;
+    const refreshToken = getCookie(request.headers).refreshToken;
 
     if (!refreshToken) {
       return NextResponse.json(
@@ -34,21 +33,8 @@ export async function POST(request: Request) {
     const data = await response.json();
     const newAccessToken = data.access_token;
     const newRefreshToken = data.refresh_token;
-    const expiresIn = data.expires_in;
 
-    // Update HTTP-only cookie
-    const cookieOptions = {
-      httpOnly: true,
-      secure: env.isProduction,
-      maxAge: parseInt(expiresIn, 10), // seconds
-      path: "/",
-    };
-
-    const headers = new Headers();
-    headers.append(
-      "Set-Cookie",
-      cookie.serialize("refreshToken", newRefreshToken, cookieOptions)
-    );
+    const headers = setAuthCookies(newRefreshToken, newAccessToken);
 
     return NextResponse.json({ idToken: newAccessToken }, { headers });
   } catch (error) {

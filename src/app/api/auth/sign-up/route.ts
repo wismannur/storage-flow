@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { firebaseModule } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import cookie from "cookie";
-import { env } from "@/constants/env";
+import { setAuthCookies } from "@/utils/cookies";
 
 export async function POST(request: Request) {
   try {
@@ -31,18 +30,8 @@ export async function POST(request: Request) {
 
     // Simpan refresh token di HTTP-only cookie
     const refreshToken = user.refreshToken;
-    const cookieOptions = {
-      httpOnly: true,
-      secure: env.isProduction,
-      maxAge: 30 * 24 * 60 * 60, // 30 hari
-      path: "/",
-    };
 
-    const headers = new Headers();
-    headers.append(
-      "Set-Cookie",
-      cookie.serialize("refreshToken", refreshToken, cookieOptions)
-    );
+    const headers = setAuthCookies(refreshToken, idToken);
 
     // Membuat respons
     const response = {

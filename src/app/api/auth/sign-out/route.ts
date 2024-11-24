@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { firebaseModule } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
-import cookie from "cookie";
-import { env } from "@/constants/env";
+import { setAuthCookies } from "@/utils/cookies";
 
 export async function POST() {
   try {
@@ -10,18 +9,8 @@ export async function POST() {
     await signOut(firebaseModule.auth);
 
     // Menghapus refresh token dari cookie HTTP-only
-    const cookieOptions = {
-      httpOnly: true,
-      secure: env.isProduction,
-      maxAge: 0, // Menghapus cookie dengan setting maxAge 0
-      path: "/",
-    };
 
-    const headers = new Headers();
-    headers.append(
-      "Set-Cookie",
-      cookie.serialize("refreshToken", "", cookieOptions)
-    );
+    const headers = setAuthCookies("", "");
 
     // Mengembalikan respons logout berhasil
     return NextResponse.json(
