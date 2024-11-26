@@ -19,7 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Firebase services
-const db = getFirestore(app, env.firebase.databaseName);
+const db = getFirestore(app, env.firebase.databaseId);
 const auth = getAuth(app);
 const storage = getStorage(app);
 

@@ -9,8 +9,8 @@ export const env = {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID!,
     appId: process.env.FIREBASE_APP_ID!,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID!,
-    databaseName: process.env.FIREBASE_DATABASE_NAME!,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    databaseId: process.env.FIREBASE_DATABASE_ID!,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!,
   },
 };
