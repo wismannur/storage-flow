@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { firebaseModule } from "@/lib/firebase";
+import { firebaseClient } from "@/lib/firebase-client";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { setAuthCookies } from "@/utils/cookies";
@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   try {
     const { fullName, email, password } = await request.json();
     const userCredential = await createUserWithEmailAndPassword(
-      firebaseModule.auth,
+      firebaseClient.auth,
       email,
       password
     );
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     await updateProfile(user, { displayName: fullName });
 
     // Simpan informasi pengguna ke Firestore
-    const userDoc = doc(firebaseModule.db, "users", user.uid);
+    const userDoc = doc(firebaseClient.db, "users", user.uid);
     await setDoc(userDoc, {
       fullName,
       email,

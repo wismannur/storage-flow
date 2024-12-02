@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { firebaseModule } from "@/lib/firebase";
+import { firebaseClient } from "@/lib/firebase-client";
 import { signOut } from "firebase/auth";
 import { setAuthCookies } from "@/utils/cookies";
 
 export async function POST() {
   try {
     // Melakukan sign-out dari Firebase Auth
-    await signOut(firebaseModule.auth);
+    await signOut(firebaseClient.auth);
 
     // Menghapus refresh token dari cookie HTTP-only
 

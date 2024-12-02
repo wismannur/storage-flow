@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { firebaseModule } from "@/lib/firebase";
+import { firebaseClient } from "@/lib/firebase-client";
 import { list, ref } from "firebase/storage";
 import { getCookie } from "@/utils/cookies";
-import { verifyIdToken } from "@/lib/firebase-admin";
+import { verifyIdToken } from "@/lib/firebase-server";
 
 export async function GET(request: Request) {
   try {
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
       throw new Error("Invalid path format. Path must start and end with '/'.");
     }
 
-    const folderRef = ref(firebaseModule.storage, path);
+    const folderRef = ref(firebaseClient.storage, path);
 
     const listResult = await list(folderRef, { maxResults, pageToken });
 

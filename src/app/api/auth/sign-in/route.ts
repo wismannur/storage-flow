@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { firebaseModule } from "@/lib/firebase";
+import { firebaseClient } from "@/lib/firebase-client";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { setAuthCookies } from "@/utils/cookies";
 
@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     const userCredential = await signInWithEmailAndPassword(
-      firebaseModule.auth,
+      firebaseClient.auth,
       email,
       password
     );

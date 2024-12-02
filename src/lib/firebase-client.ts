@@ -1,3 +1,5 @@
+// this app for client side
+
 import { env } from "@/constants/env";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -24,7 +26,7 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 // Exporting services
-export const firebaseModule = {
+export const firebaseClient = {
   app,
   db,
   auth,

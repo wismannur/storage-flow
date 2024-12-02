@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { firebaseModule } from "@/lib/firebase";
+import { firebaseClient } from "@/lib/firebase-client";
 import { getMetadata, getDownloadURL, ref } from "firebase/storage";
 import { getCookie } from "@/utils/cookies";
-import { verifyIdToken } from "@/lib/firebase-admin";
+import { verifyIdToken } from "@/lib/firebase-server";
 
 export async function GET(request: Request) {
   try {
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const fileRef = ref(firebaseModule.storage, path);
+    const fileRef = ref(firebaseClient.storage, path);
 
     // Fetch metadata
     const metadata = await getMetadata(fileRef);
