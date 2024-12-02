@@ -16,7 +16,10 @@ if (!admin.apps.length) {
 export const firebaseServer = {
   auth: admin.auth(),
   db: admin.firestore(),
-  storage: admin.storage(),
+  storage: {
+    app: admin.storage().app,
+    bucket: admin.storage().bucket(env.firebase.storageBucket),
+  },
 };
 
 export const verifyIdToken = async (idToken: string) => {
