@@ -4,7 +4,7 @@ import { getCookie, setAuthCookies } from "@/utils/cookies";
 
 export async function POST(request: Request) {
   try {
-    const refreshToken = getCookie(request.headers).refreshToken;
+    const refreshToken = (await getCookie()).refreshToken;
 
     if (!refreshToken) {
       return NextResponse.json(
@@ -34,9 +34,9 @@ export async function POST(request: Request) {
     const newAccessToken = data.access_token;
     const newRefreshToken = data.refresh_token;
 
-    const headers = setAuthCookies(newRefreshToken, newAccessToken);
+    await setAuthCookies(newRefreshToken, newAccessToken);
 
-    return NextResponse.json({ idToken: newAccessToken }, { headers });
+    return NextResponse.json({ idToken: newAccessToken });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },

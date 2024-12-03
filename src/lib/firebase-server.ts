@@ -8,7 +8,7 @@ if (!admin.apps.length) {
     credential: admin.credential.cert({
       projectId: env.firebase.projectId,
       clientEmail: env.firebase.clientEmail,
-      privateKey: env.firebase.privateKey.replace(/\\n/g, "\n"),
+      privateKey: env.firebase.privateKey,
     }),
   });
 }

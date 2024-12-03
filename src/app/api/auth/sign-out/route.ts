@@ -10,13 +10,10 @@ export async function POST() {
 
     // Menghapus refresh token dari cookie HTTP-only
 
-    const headers = setAuthCookies("", "");
+    await setAuthCookies("", "");
 
     // Mengembalikan respons logout berhasil
-    return NextResponse.json(
-      { message: "Signed out successfully." },
-      { headers }
-    );
+    return NextResponse.json({ message: "Signed out successfully." });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
