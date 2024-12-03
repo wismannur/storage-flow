@@ -2,7 +2,6 @@
 
 import { NextResponse } from "next/server";
 import { firebaseServer } from "@/lib/firebase-server";
-import { env } from "@/constants/env";
 
 export async function GET(
   req: Request,

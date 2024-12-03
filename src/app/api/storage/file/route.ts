@@ -6,7 +6,7 @@ import { verifyIdToken } from "@/lib/firebase-server";
 
 export async function GET(request: Request) {
   try {
-    const idToken = getCookie(request.headers).idToken;
+    const idToken = (await getCookie()).idToken;
     if (!idToken) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

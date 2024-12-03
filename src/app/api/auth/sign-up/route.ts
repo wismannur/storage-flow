@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     // Simpan refresh token di HTTP-only cookie
     const refreshToken = user.refreshToken;
 
-    const headers = setAuthCookies(refreshToken, idToken);
+    await setAuthCookies(refreshToken, idToken);
 
     // Membuat respons
     const response = {
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       lastLoginAt: user.metadata.lastSignInTime,
     };
 
-    return NextResponse.json(response, { headers });
+    return NextResponse.json(response);
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
