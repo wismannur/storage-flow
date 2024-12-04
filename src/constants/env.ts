@@ -11,6 +11,6 @@ export const env = {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID!,
     databaseId: process.env.FIREBASE_DATABASE_ID!,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!,
   },
 };
