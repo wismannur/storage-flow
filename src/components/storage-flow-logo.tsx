@@ -18,8 +18,6 @@ const StorageFlowLogo: React.FC<TStorageFlowLogoProps> = ({ className }) => {
       : "#FFFFFF"
     : "#0F172A";
 
-  console.log("textColor ", textColor);
-
   return (
     <svg
       width="100%"
