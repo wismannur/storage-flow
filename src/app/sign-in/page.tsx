@@ -14,13 +14,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useLoadingScreen } from "@/features/loading-screen/hooks";
+import { withAuth } from "@/hoc/withAuth";
 import { useToast } from "@/hooks/use-toast";
-import { authSignIn } from "@/services/auth";
+import { authSignInWithEmail } from "@/services/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function SignInPage() {
+const SignInPage = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { startLoading, stopLoading } = useLoadingScreen();
@@ -32,15 +33,13 @@ export default function SignInPage() {
     startLoading();
 
     try {
-      const resSignIn = await authSignIn({ email, password });
+      await authSignInWithEmail({ email, password });
 
-      if (resSignIn.ok) {
-        toast({
-          title: "Login Successful",
-          description: "You have been logged in successfully.",
-        });
-        router.push("/dashboard");
-      }
+      toast({
+        title: "Login Successful",
+        description: "You have been logged in successfully.",
+      });
+      router.push("/dashboard");
     } catch (error) {
       toast({
         title: "Login Failed",
@@ -109,9 +108,21 @@ export default function SignInPage() {
             </p>
           </CardFooter>
         </Card>
-        <p className="text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()}, StorageFlow.
-        </p>
+        <div className="flex justify-between">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} StorageFlow. Licensed under MIT
+            License.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            View the source code on{" "}
+            <a
+              href="https://github.com/wismannur/storage-flow"
+              className="text-sky-500"
+            >
+              GitHub.
+            </a>
+          </p>
+        </div>
       </div>
       {/* <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
         <div className="text-primary-foreground max-w-md">
@@ -131,4 +142,12 @@ export default function SignInPage() {
       </div> */}
     </div>
   );
+};
+
+export default function ProtectedSignInPage() {
+  return withAuth({
+    children: <SignInPage />,
+    requireAuth: false,
+    redirectTo: "/dashboard",
+  });
 }

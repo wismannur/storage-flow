@@ -13,10 +13,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { withAuth } from "@/hoc/withAuth";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function SignUpPage() {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -89,9 +90,21 @@ export default function SignUpPage() {
             </p>
           </CardFooter>
         </Card>
-        <p className="text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()}, StorageFlow. All rights reserved.
-        </p>
+        <div className="flex justify-between">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} StorageFlow. Licensed under MIT
+            License.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            View the source code on{" "}
+            <a
+              href="https://github.com/wismannur/storage-flow"
+              className="text-sky-500"
+            >
+              GitHub.
+            </a>
+          </p>
+        </div>
       </div>
       {/* <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
         <div className="text-primary-foreground max-w-md">
@@ -111,4 +124,12 @@ export default function SignUpPage() {
       </div> */}
     </div>
   );
+};
+
+export default function ProtectedSignUpPage() {
+  return withAuth({
+    children: <SignUpPage />,
+    requireAuth: false,
+    redirectTo: "/dashboard",
+  });
 }
