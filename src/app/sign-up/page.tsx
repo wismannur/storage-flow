@@ -29,7 +29,7 @@ export default function SignUpPage() {
 
   return (
     <div className="flex min-h-screen">
-      <div className="w-full lg:w-1/2 flex flex-col justify-between p-8">
+      <div className="w-full flex flex-col justify-between p-8">
         <div className="flex justify-between">
           <Link href="/" className="flex gap-2 justify-center items-center">
             <StorageFlowLogo className="w-7 h-7" />
@@ -90,10 +90,10 @@ export default function SignUpPage() {
           </CardFooter>
         </Card>
         <p className="text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} StorageFlow. All rights reserved.
+          &copy; {new Date().getFullYear()}, StorageFlow. All rights reserved.
         </p>
       </div>
-      <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
+      {/* <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
         <div className="text-primary-foreground max-w-md">
           <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
           <p className="mb-4">
@@ -108,7 +108,7 @@ export default function SignUpPage() {
             <li>Regular updates and newsletters</li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
