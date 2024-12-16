@@ -2,9 +2,21 @@
 
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { useIsMounted } from "usehooks-ts";
 
-const StorageFlowLogo = ({ className }: { className?: string }) => {
+type TStorageFlowLogoProps = {
+  className?: string;
+};
+
+const StorageFlowLogo: React.FC<TStorageFlowLogoProps> = ({ className }) => {
   const { theme } = useTheme();
+  const isMounted = useIsMounted();
+
+  const textColor = isMounted()
+    ? theme === "dark"
+      ? "#0F172A"
+      : "#FFFFFF"
+    : "#0F172A";
 
   return (
     <svg
@@ -18,7 +30,7 @@ const StorageFlowLogo = ({ className }: { className?: string }) => {
       <text
         x="145"
         y="135"
-        fill={theme === "dark" ? "#0F172A" : "#FFFFFF"}
+        fill={textColor}
         fontSize="85"
         fontWeight="bold"
         textAnchor="end"

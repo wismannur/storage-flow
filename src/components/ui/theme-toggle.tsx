@@ -5,8 +5,11 @@ import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 
+import { useIsMounted } from "usehooks-ts";
+
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const isMounted = useIsMounted();
 
   return (
     <Button
@@ -14,10 +17,16 @@ export function ThemeToggle() {
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5" />
+      {isMounted() ? (
+        <>
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5" />
+          ) : (
+            <Moon className="w-5 h-5" />
+          )}
+        </>
       ) : (
-        <Moon className="h-5 w-5" />
+        <Sun className="w-5 h-5" />
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>
