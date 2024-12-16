@@ -3,25 +3,22 @@
 import Header from "@/features/layouts/main/header";
 import Footer from "@/features/layouts/main/footer";
 import HeroSection from "@/features/home/hero-section";
-import { withAuth } from "@/hoc/withAuth";
+import WithAuth from "@/hoc/with-auth";
+import dynamic from "next/dynamic";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <HeroSection />
-      </main>
-      <Footer />
-    </div>
+    <WithAuth requireAuth={false} redirectTo="/dashboard">
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          {/* Hero Section */}
+          <HeroSection />
+        </main>
+        <Footer />
+      </div>
+    </WithAuth>
   );
 };
 
-export default function ProtectedHomePage() {
-  return withAuth({
-    children: <HomePage />,
-    requireAuth: false,
-    redirectTo: "/dashboard",
-  });
-}
+export default dynamic(() => Promise.resolve(HomePage), { ssr: false });

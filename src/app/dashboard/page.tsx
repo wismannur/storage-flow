@@ -1,19 +1,16 @@
 "use client";
 
-import { withAuth } from "@/hoc/withAuth";
+import WithAuth from "@/hoc/with-auth";
+import dynamic from "next/dynamic";
 
 const DashboardPage = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <WithAuth requireAuth={true} redirectTo="/sign-in">
+      <div>
+        <h1>Dashboard</h1>
+      </div>
+    </WithAuth>
   );
 };
 
-export default function ProtectedDashboardPage() {
-  return withAuth({
-    children: <DashboardPage />,
-    requireAuth: true,
-    redirectTo: "/sign-in",
-  });
-}
+export default dynamic(() => Promise.resolve(DashboardPage), { ssr: false });

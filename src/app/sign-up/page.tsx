@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { withAuth } from "@/hoc/withAuth";
+import WithAuth from "@/hoc/with-auth";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -29,107 +30,105 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-full flex flex-col justify-between p-8">
-        <div className="flex justify-between">
-          <Link href="/" className="flex gap-2 justify-center items-center">
-            <StorageFlowLogo className="w-7 h-7" />
-            <h1 className="text-2xl font-bold">StorageFlow</h1>
-          </Link>
-          <ThemeToggle />
-        </div>
-        <Card className="w-full max-w-md mx-auto">
-          <CardHeader>
-            <CardTitle>Sign Up</CardTitle>
-            <CardDescription>Create an account to get started</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input
-                  id="confirm-password"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full">
-                Sign Up
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-center">
+    <WithAuth requireAuth={false} redirectTo="/dashboard">
+      <div className="flex min-h-screen">
+        <div className="w-full flex flex-col justify-between p-8">
+          <div className="flex justify-between">
+            <Link href="/" className="flex gap-2 justify-center items-center">
+              <StorageFlowLogo className="w-7 h-7" />
+              <h1 className="text-2xl font-bold">StorageFlow</h1>
+            </Link>
+            <ThemeToggle />
+          </div>
+          <Card className="w-full max-w-md mx-auto">
+            <CardHeader>
+              <CardTitle>Sign Up</CardTitle>
+              <CardDescription>
+                Create an account to get started
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirm-password">Confirm Password</Label>
+                  <Input
+                    id="confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full">
+                  Sign Up
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <p className="text-sm text-muted-foreground">
+                Already have an account?{" "}
+                <Link href="/sign-in" className="text-primary hover:underline">
+                  Sign in
+                </Link>
+              </p>
+            </CardFooter>
+          </Card>
+          <div className="flex justify-between">
             <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
-              <Link href="/sign-in" className="text-primary hover:underline">
-                Sign in
-              </Link>
+              &copy; {new Date().getFullYear()} StorageFlow. Licensed under MIT
+              License.
             </p>
-          </CardFooter>
-        </Card>
-        <div className="flex justify-between">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} StorageFlow. Licensed under MIT
-            License.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            View the source code on{" "}
-            <a
-              href="https://github.com/wismannur/storage-flow"
-              className="text-sky-500"
-            >
-              GitHub.
-            </a>
-          </p>
+            <p className="text-sm text-muted-foreground">
+              View the source code on{" "}
+              <a
+                href="https://github.com/wismannur/storage-flow"
+                className="text-sky-500"
+              >
+                GitHub.
+              </a>
+            </p>
+          </div>
         </div>
+        {/* <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
+          <div className="text-primary-foreground max-w-md">
+            <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
+            <p className="mb-4">
+              Create an account to unlock a world of possibilities. Get access to
+              exclusive features, personalized content, and connect with
+              like-minded individuals.
+            </p>
+            <ul className="list-disc list-inside">
+              <li>Personalized dashboard</li>
+              <li>Exclusive member-only content</li>
+              <li>Community forums and networking</li>
+              <li>Regular updates and newsletters</li>
+            </ul>
+          </div>
+        </div> */}
       </div>
-      {/* <div className="w-1/2 p-8 bg-primary hidden lg:flex items-center justify-center">
-        <div className="text-primary-foreground max-w-md">
-          <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
-          <p className="mb-4">
-            Create an account to unlock a world of possibilities. Get access to
-            exclusive features, personalized content, and connect with
-            like-minded individuals.
-          </p>
-          <ul className="list-disc list-inside">
-            <li>Personalized dashboard</li>
-            <li>Exclusive member-only content</li>
-            <li>Community forums and networking</li>
-            <li>Regular updates and newsletters</li>
-          </ul>
-        </div>
-      </div> */}
-    </div>
+    </WithAuth>
   );
 };
 
-export default function ProtectedSignUpPage() {
-  return withAuth({
-    children: <SignUpPage />,
-    requireAuth: false,
-    redirectTo: "/dashboard",
-  });
-}
+export default dynamic(() => Promise.resolve(SignUpPage), { ssr: false });

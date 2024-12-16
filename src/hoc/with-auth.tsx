@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseClient } from "@/lib/firebase-client";
@@ -5,18 +7,16 @@ import { useRouter } from "next/navigation";
 
 type TWithAuthProps = {
   children: ReactNode;
-  requireAuth?: boolean; // Set to true for pages that require login
-  redirectTo?: string; // Page to redirect if condition not met
+  requireAuth: boolean;
+  redirectTo: string;
 };
 
-export const withAuth = ({
-  children,
-  requireAuth,
-  redirectTo,
-}: TWithAuthProps) => {
+const WithAuth = ({ children, requireAuth, redirectTo }: TWithAuthProps) => {
   const router = useRouter();
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Skip on server-side
+
     const unsubscribe = onAuthStateChanged(firebaseClient.auth, (user) => {
       if (requireAuth && !user) {
         router.push(redirectTo || "/signIn");
@@ -29,3 +29,5 @@ export const withAuth = ({
 
   return <>{children}</>;
 };
+
+export default WithAuth;
